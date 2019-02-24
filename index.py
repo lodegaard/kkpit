@@ -83,208 +83,15 @@ app.layout = html.Div([
         ),
 
         html.Div([
-            # html.Div([
-            #     html.Div([
-            #         html.Div([
-            #             html.P('Some text')
-            #         ],
-            #         className='card-body text-center'
-            #         )
-            #     ],
-            #     className='card border-light'
-            #     )
-            # ],
-            # className='col-md-3 col-sm-6 col-xs-12 bg-light'
-            # ),
-            # html.Div([
-            #     html.Div([
-            #         html.Div([
-            #             html.P('Some text')
-            #         ],
-            #         className='card-body text-center'
-            #         )
-            #     ],
-            #     className='card border-light'
-            #     )
-            # ],
-            # className='col-md-3 col-sm-6 col-xs-12bg-light'
-            # ),
-            # html.Div([
-            #     html.Div([
-            #         html.Div([
-            #             html.P('Some text')
-            #         ],
-            #         className='card-body text-center'
-            #         )
-            #     ],
-            #     className='card border-light'
-            #     )
-            # ],
-            # className='col-md-3 col-sm-6 col-xs-12 bg-light'
-            # ),
-            # html.Div([
-            #     html.Div([
-            #         html.Div([
-            #             html.P('Some text')
-            #         ],
-            #         className='card-body text-center'
-            #         )
-            #     ],
-            #     className='card border-light'
-            #     )
-            # ],
-            # className='col-md-3 col-sm-6 col-xs-12 bg-light'
-            # ),
-        ],
-        className='row bg-light'
-        ),
-
-        # html.Div([
-        #     html.Div([
-        #         html.Div([
-        #             html.Div([
-        #                 html.H5('Cumulative Flow Diagram')
-        #             ],
-        #             className='card-header stylish-color-dark text-white text-center'
-        #             ),
-        #             html.Div(
-        #             id='cfd',
-        #             className='card-body text-center'
-        #             )
-        #         ],
-        #         className='card border-light'
-        #         )
-        #     ],
-        #     className='col bg-light'
-        #     ),
-        # ],
-        # className='row bg-light'
-        # ),
-
-        # html.Div([
-        #     html.Div([
-        #         html.Div([
-        #             html.Div([
-        #                 html.H5('Burn Down')
-        #             ],
-        #             className='card-header stylish-color-dark text-white text-center'
-        #             ),
-        #             html.Div(
-        #             id='burn-down',
-        #             className='card-body text-center'
-        #             )
-        #         ],
-        #         className='card border-light'
-        #         )
-        #     ],
-        #     className='col-md-6 col-sm-12 col-xs-24'
-        #     ),
-        #     html.Div([
-        #         html.Div([
-        #             html.Div([
-        #                 html.H5('Burn Up')
-        #             ],
-        #             className='card-header stylish-color-dark text-white text-center'
-        #             ),
-        #             html.Div(
-        #             id='burn-up',
-        #             className='card-body text-center'
-        #             )
-        #         ],
-        #         className='card border-light'
-        #         )
-        #     ],
-        #     className='col-md-6 col-sm-12 col-xs-24'
-        #     )
-        # ],
-        # className='row'
-        # ),
-        # html.Div([
-        #     html.Div([
-        #         html.Div([
-        #             html.Div([
-        #                 html.H5('Work in progress')
-        #             ],
-        #             className='card-header stylish-color-dark text-white text-center'
-        #             ),
-        #             html.Div(
-        #             id='cards-per-list',
-        #             className='card-body text-center'
-        #             )
-        #         ],
-        #         className='card border-light'
-        #         )
-        #     ],
-        #     className='col-md-6 col-sm-12 col-xs-24'
-        #     ),
-        #     html.Div([
-        #         html.Div([
-        #             html.Div([
-        #                 html.H5('Work in progress')
-        #             ],
-        #             className='card-header stylish-color-dark text-white text-center'
-        #             ),
-        #             html.Div(
-        #             id='cards-per-member',
-        #             className='card-body text-center'
-        #             )
-        #         ],
-        #         className='card border-light'
-        #         )
-        #     ],
-        #     className='col-md-6 col-sm-12 col-xs-24'
-        #     )
-        # ],
-        # className='row'
-        # ),
-
-        # html.Div([
-        #     html.Div([
-        #         html.Div([
-        #             html.Div([
-        #                 html.H5('Cycle time analysis')
-        #             ],
-        #             className='card-header stylish-color-dark text-white text-center'
-        #             ),
-        #             html.Div(
-        #             id='cta',
-        #             className='card-body text-center'
-        #             )
-        #         ],
-        #         className='card border-light'
-        #         )
-        #     ],
-        #     className='col bg-light'
-        #     ),
-        # ],
-
-        # className='row bg-light'
-        # ),
-
-        html.Div([
-            
-        ],
-        className='row'
-        ),
-
-        html.Div([
             html.Div([
                 html.Div([
                     html.Div([
-                        html.H5('Sortable list')
+                        html.H5('Cumulative Flow Diagram')
                     ],
                     className='card-header stylish-color-dark text-white text-center'
                     ),
-                    html.Div([
-                        html.Ul([
-                            html.Li('Entry 1', className='list-group-item'),
-                            html.Li('Entry 2', className='list-group-item'),
-                            html.Li('Entry 3', className='list-group-item'),
-                        ],
-                        className='list-group list-group-sortable'
-                        )
-                    ],
-                    id='sorting-test',
+                    html.Div(
+                    id='cfd',
                     className='card-body text-center'
                     )
                 ],
@@ -297,6 +104,111 @@ app.layout = html.Div([
         className='row bg-light'
         ),
 
+        html.Div([
+            html.Div([
+                html.Div([
+                    html.Div([
+                        html.H5('Burn Down')
+                    ],
+                    className='card-header stylish-color-dark text-white text-center'
+                    ),
+                    html.Div(
+                    id='burn-down',
+                    className='card-body text-center'
+                    )
+                ],
+                className='card border-light'
+                )
+            ],
+            className='col-md-6 col-sm-12 col-xs-24'
+            ),
+            html.Div([
+                html.Div([
+                    html.Div([
+                        html.H5('Burn Up')
+                    ],
+                    className='card-header stylish-color-dark text-white text-center'
+                    ),
+                    html.Div(
+                    id='burn-up',
+                    className='card-body text-center'
+                    )
+                ],
+                className='card border-light'
+                )
+            ],
+            className='col-md-6 col-sm-12 col-xs-24'
+            )
+        ],
+        className='row'
+        ),
+        html.Div([
+            html.Div([
+                html.Div([
+                    html.Div([
+                        html.H5('Work in progress')
+                    ],
+                    className='card-header stylish-color-dark text-white text-center'
+                    ),
+                    html.Div(
+                    id='cards-per-list',
+                    className='card-body text-center'
+                    )
+                ],
+                className='card border-light'
+                )
+            ],
+            className='col-md-6 col-sm-12 col-xs-24'
+            ),
+            html.Div([
+                html.Div([
+                    html.Div([
+                        html.H5('Work in progress')
+                    ],
+                    className='card-header stylish-color-dark text-white text-center'
+                    ),
+                    html.Div(
+                    id='cards-per-member',
+                    className='card-body text-center'
+                    )
+                ],
+                className='card border-light'
+                )
+            ],
+            className='col-md-6 col-sm-12 col-xs-24'
+            )
+        ],
+        className='row'
+        ),
+
+        html.Div([
+            html.Div([
+                html.Div([
+                    html.Div([
+                        html.H5('Cycle time analysis')
+                    ],
+                    className='card-header stylish-color-dark text-white text-center'
+                    ),
+                    html.Div(
+                    id='cta',
+                    className='card-body text-center'
+                    )
+                ],
+                className='card border-light'
+                )
+            ],
+            className='col bg-light'
+            ),
+        ],
+
+        className='row bg-light'
+        ),
+
+        html.Div([
+            
+        ],
+        className='row'
+        ),
     ],
     className='container'
     ),
