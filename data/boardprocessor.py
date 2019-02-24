@@ -2,8 +2,8 @@ class BoardListProcessor:
         
     def getCardsPerListData(self, lists):
         output_data = {}
-        for l in lists:
-            output_data[l.name] = len(l.list_cards())
+        for l,cards in lists.items():
+            output_data[l] = len(cards)
 
         return output_data
 
@@ -12,13 +12,13 @@ class BoardListProcessor:
         output_data = {}
 
         output_data = {}
-        for l in lists:
-            if l.name != 'Done':
-                output_data[l.name] = {}
-                for card in l.list_cards():
-                    if len(card.member_id) > 0:
-                        if not members[card.member_id[0]] in output_data[l.name].keys():
-                            output_data[l.name][members[card.member_id[0]]] = []
-                        output_data[l.name][members[card.member_id[0]]].append(card.id)
+        for l,cards in lists.items():
+            if l != 'Done':
+                output_data[l] = {}
+                for card in cards:
+                    if len(card["members"]) > 0:
+                        if not members[card["members"][0]] in output_data[l].keys():
+                            output_data[l][members[card["members"][0]]] = []
+                        output_data[l][members[card["members"][0]]].append(card["id"])
         
         return output_data

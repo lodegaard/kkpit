@@ -17,11 +17,8 @@ class BoardListFetcher:
         data = {}
         if board_id is not None:
             board = self.client.get_board(board_id)
-            lists = board.get_lists('open')
-            for l in lists:
-                data[l.name] = []
-                for card in l.list_cards():
-                    data[l.name].append(card)
+            for l in board.get_lists('open'):
+                data[l.id] = l.name
             
         return data
 

@@ -19,10 +19,10 @@ class ActionProcessor:
                 # Add the date
                 if prev_date is None:
                     output_data[action_rounded_date] = {}
-                    for list_ in lists:
+                    for l in lists.values():
                         # Add all the lists that could have elements on this date
                         # If this is the first action for this data, no lists have any cards yet
-                        output_data[action_rounded_date][list_.name] = set()
+                        output_data[action_rounded_date][l] = set()
                 elif prev_date is not None and action_rounded_date not in output_data.keys():
                     # If there are no changes the number of cards in a list is the same as before
                     output_data[action_rounded_date] = copy.deepcopy(output_data[prev_date])
@@ -90,10 +90,10 @@ class CfdProcessor(ActionProcessor):
 
         output_data = self._process(actions, lists)
         formatted_data = {}
-        for l in lists:
-            formatted_data[l.name] = {}
+        for l in lists.values():
+            formatted_data[l] = {}
             for date in output_data:
-                formatted_data[l.name][date] = len(output_data[date][l.name])
+                formatted_data[l][date] = len(output_data[date][l])
 
         return formatted_data
 
@@ -138,7 +138,6 @@ class BurnUpProcessor(ActionProcessor):
 class CtaProcessor(ActionProcessor):
 
     def _process(self, actions, lists):
-        output_data = {}
         card_movement = {}
         for action in sorted(actions, key=lambda action: datetime.datetime.strptime(action["date"], self.fmt)):
             action_date = datetime.datetime.strptime(action["date"], self.fmt)
@@ -164,8 +163,8 @@ class CtaProcessor(ActionProcessor):
                 card_movement[action_card["id"]] = {}
                 card_movement[action_card["id"]]["info"] = action_card["name"]
                 card_movement[action_card["id"]]["movements"] = {}
-                for l in lists:
-                    card_movement[action_card["id"]]["movements"][l.name] = []
+                for l in lists.values():
+                    card_movement[action_card["id"]]["movements"][l] = []
 
             if action_card is not None:
                 if list_out is not None and len(card_movement[action_card["id"]]["movements"][list_out]) > 0:

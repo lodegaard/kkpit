@@ -11,7 +11,7 @@ from settings import api_key, app_token, kanban_board_id
 client = trello.TrelloClient(api_key, token=app_token)
 
 from app import app, server
-from data import actionfetcher, boardfetcher
+from data import actionfetcher, boardfetcher, cardfetcher
 from data import actionprocessor, boardprocessor
 
 Range = namedtuple('Range', ['start', 'end'])
@@ -224,17 +224,23 @@ className='bg-light'
      dash.dependencies.Input('date-range', 'end_date')])
 def fetch_data(start_date, end_date):
     actionFetcher = actionfetcher.ActionFetcher(client)
-    #listFetcher = boardfetcher.BoardListFetcher(client)
+    listFetcher = boardfetcher.BoardListFetcher(client)
     memberFetcher = boardfetcher.BoardMemberFetcher(client)
-
+    cardFetcher = cardfetcher.ListCardFetcher(client)
+    
     actions = actionFetcher.fetch_raw(kanban_board_id)
-    #lists = listFetcher.fetch(kanban_board_id)
+    lists = listFetcher.fetch_raw(kanban_board_id)
     members = memberFetcher.fetch(kanban_board_id)
+    
+    cards = {}
+    for listId,name in lists.items():
+        cards[name] = cardFetcher.fetch(listId)
     
     dataset = {
         'range': parse_date_input(start_date, end_date),
         'members': members,
-        #'lists': lists,
+        'lists': lists,
+        'cards': cards,
         'actions': actions
     }
     
@@ -247,12 +253,11 @@ def update_cfd_graph(json_data):
     data = json.loads(json_data)
     r = Range(datetime.datetime.strptime(data["range"][0], '%Y-%m-%d %H:%M:%S'), datetime.datetime.strptime(data["range"][1], '%Y-%m-%d %H:%M:%S'))
     
-    members = data["members"]
     actions = data["actions"]
+    lists = data["lists"]
 
-    board = client.get_board(kanban_board_id)
     processor = actionprocessor.CfdProcessor()
-    data = processor.getCfdData(actions, board.get_lists('open'))
+    data = processor.getCfdData(actions, lists)
     
     plot_data = []
     for series in ['Done', 'On hold', 'For review', 'Doing', 'To do']:
@@ -294,12 +299,11 @@ def update_burndown_graph(json_data):
     data = json.loads(json_data)
     r = Range(datetime.datetime.strptime(data["range"][0], '%Y-%m-%d %H:%M:%S'), datetime.datetime.strptime(data["range"][1], '%Y-%m-%d %H:%M:%S'))
     
-    members = data["members"]
     actions = data["actions"]
+    lists = data["lists"]
 
-    board = client.get_board(kanban_board_id)
     processor = actionprocessor.BurnDownProcessor()
-    data = processor.getBurnDownData(actions, board.get_lists('open'))
+    data = processor.getBurnDownData(actions, lists)
     
     plot_data = []
     plot_data.append(dict(
@@ -342,12 +346,11 @@ def update_burnup_graph(json_data):
     data = json.loads(json_data)
     r = Range(datetime.datetime.strptime(data["range"][0], '%Y-%m-%d %H:%M:%S'), datetime.datetime.strptime(data["range"][1], '%Y-%m-%d %H:%M:%S'))
     
-    members = data["members"]
     actions = data["actions"]
+    lists = data["lists"]
 
-    board = client.get_board(kanban_board_id)
     processor = actionprocessor.BurnUpProcessor()
-    data = processor.getBurnUpData(actions, board.get_lists('open'))
+    data = processor.getBurnUpData(actions, lists)
     
     plot_data = []
     plot_data.append(dict(
@@ -402,9 +405,9 @@ def update_burnup_graph(json_data):
 def update_cardsperlist_grap(json_data):
     data = json.loads(json_data)
 
-    board = client.get_board(kanban_board_id)
+    cards = data["cards"]
     processor = boardprocessor.BoardListProcessor()
-    data = processor.getCardsPerListData(board.get_lists('open'))
+    data = processor.getCardsPerListData(cards)
 
     plot_data = []
     plot_data.append(dict(
@@ -441,11 +444,11 @@ def update_cardsperlist_grap(json_data):
 def update_cardspermember_grap(json_data):
     data = json.loads(json_data)
     
+    cards = data["cards"]
     members = data["members"]
     
-    board = client.get_board(kanban_board_id)
     processor = boardprocessor.BoardListProcessor()
-    data = processor.getCardsPerMemberData(board.get_lists('open'), members)
+    data = processor.getCardsPerMemberData(cards, members)
     
     plot_data = []
     for series in data:
@@ -486,10 +489,10 @@ def update_cta_graph(json_data):
     r = Range(datetime.datetime.strptime(data["range"][0], '%Y-%m-%d %H:%M:%S'), datetime.datetime.strptime(data["range"][1], '%Y-%m-%d %H:%M:%S'))
     
     actions = data["actions"]
+    lists = data["lists"]
 
-    board = client.get_board(kanban_board_id)
     processor = actionprocessor.CtaProcessor()
-    data = processor.getCtaData(actions, board.get_lists('open'))
+    data = processor.getCtaData(actions, lists)
     cma = processor.getCmaData(data)
     percentiles = processor.getPercentiles(data, [85, 95])
 
@@ -588,12 +591,6 @@ def update_cta_graph(json_data):
         ),
         config=dict(displayModeBar=False),
     ),
-
-    
-    
-    
-
-
 
 if __name__ == '__main__':
     print('Starting app...')
