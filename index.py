@@ -12,7 +12,7 @@ client = trello.TrelloClient(api_key, token=app_token)
 
 from app import app, server
 from data import actionfetcher, boardfetcher
-from data import progresschartprocessor, cardstatprocessor, actionprocessor
+from data import actionprocessor
 
 Range = namedtuple('Range', ['start', 'end'])
 def parse_date_input(start_date, end_date):
