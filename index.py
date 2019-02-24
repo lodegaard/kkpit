@@ -52,7 +52,7 @@ app.layout = html.Div([
         html.Div(
             [
             html.A([
-                html.H1('XG Transcoder KPI'),
+                html.H1('KPI'),
                 ],
                 className='navbar-brand',
                 href='#'
