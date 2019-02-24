@@ -12,7 +12,7 @@ client = trello.TrelloClient(api_key, token=app_token)
 
 from app import app, server
 from data import actionfetcher, boardfetcher
-from data import actionprocessor
+from data import actionprocessor, boardprocessor
 
 Range = namedtuple('Range', ['start', 'end'])
 def parse_date_input(start_date, end_date):
@@ -230,7 +230,7 @@ def fetch_data(start_date, end_date):
     actions = actionFetcher.fetch_raw(kanban_board_id)
     #lists = listFetcher.fetch(kanban_board_id)
     members = memberFetcher.fetch(kanban_board_id)
-
+    
     dataset = {
         'range': parse_date_input(start_date, end_date),
         'members': members,
@@ -398,11 +398,13 @@ def update_burnup_graph(json_data):
 
 @app.callback(
     dash.dependencies.Output('cards-per-list', 'children'),
-    [dash.dependencies.Input('date-range', 'start_date'),
-     dash.dependencies.Input('date-range', 'end_date')])
-def update_cardsperlist_grap(start_data, end_date):
-    processor = boardfetcher.BoardListProcessor(client)
-    data = processor.getCardsPerListData(kanban_board_id)
+    [Input('datastore', 'children')])
+def update_cardsperlist_grap(json_data):
+    data = json.loads(json_data)
+
+    board = client.get_board(kanban_board_id)
+    processor = boardprocessor.BoardListProcessor()
+    data = processor.getCardsPerListData(board.get_lists('open'))
 
     plot_data = []
     plot_data.append(dict(
@@ -435,11 +437,15 @@ def update_cardsperlist_grap(start_data, end_date):
 
 @app.callback(
     dash.dependencies.Output('cards-per-member', 'children'),
-    [dash.dependencies.Input('date-range', 'start_date'),
-     dash.dependencies.Input('date-range', 'end_date')])
-def update_cardspermember_grap(start_data, end_date):
-    processor = boardfetcher.BoardListProcessor(client)
-    data = processor.getCardsPerMemberData(kanban_board_id)
+    [Input('datastore', 'children')])
+def update_cardspermember_grap(json_data):
+    data = json.loads(json_data)
+    
+    members = data["members"]
+    
+    board = client.get_board(kanban_board_id)
+    processor = boardprocessor.BoardListProcessor()
+    data = processor.getCardsPerMemberData(board.get_lists('open'), members)
     
     plot_data = []
     for series in data:
@@ -479,7 +485,6 @@ def update_cta_graph(json_data):
     data = json.loads(json_data)
     r = Range(datetime.datetime.strptime(data["range"][0], '%Y-%m-%d %H:%M:%S'), datetime.datetime.strptime(data["range"][1], '%Y-%m-%d %H:%M:%S'))
     
-    members = data["members"]
     actions = data["actions"]
 
     board = client.get_board(kanban_board_id)

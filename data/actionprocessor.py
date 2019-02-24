@@ -4,8 +4,6 @@ import math
 from collections import OrderedDict
 from recordclass import recordclass
 
-from .actionfetcher import ActionFetcher
-
 Delta = recordclass('Delta', ['entry', 'leave'])
 
 class ActionProcessor:
