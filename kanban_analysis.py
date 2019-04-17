@@ -225,7 +225,7 @@ def fetch_data(start_date, end_date):
     return json.dumps(dataset, default=str)
 
 @app.callback(
-    dash.dependencies.Output('cfd', 'children'),
+    Output('cfd', 'children'),
     [Input('datastore', 'children')])
 def update_cfd_graph(json_data):
     data = json.loads(json_data)

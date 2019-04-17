@@ -5,13 +5,12 @@ import dash_html_components as html
 
 import datetime
 import trello
-import json
-from collections import namedtuple
 from settings import api_key, app_token, kanban_board_id
 client = trello.TrelloClient(api_key, token=app_token)
 
 from app import app, server
 import kanban_analysis
+import setup_page
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
@@ -31,18 +30,18 @@ app.layout = html.Div([
         className='navbar navbar-dark stylish-color-dark',
     ),
 
-    html.Div(className='container'),
+    html.Div(className='container', id='content'),
 
 ],
 className='bg-light'
 )
 
-@app.callback(Output('container', 'children'),
-              [Input('url', 'pathname')])
+@app.callback(
+    Output('content', 'children'),
+    [Input('url', 'pathname')])
 def display_page(pathname):
-    print(pathname)
+    return setup_page.page_layout
     return kanban_analysis.page_layout
-
 
 if __name__ == '__main__':
     print('Starting app...')
