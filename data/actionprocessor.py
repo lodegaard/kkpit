@@ -44,7 +44,9 @@ class ActionProcessor:
                 elif 'closed' in action["data"]["card"].keys():
                     if 'closed' in action["data"]["old"].keys() and not action["data"]["old"]["closed"]:
                         prev_list = action["data"]["list"]["name"]
-                        output_data[action_rounded_date][prev_list].remove(action["data"]["card"]["id"])
+                        #print('{}: {} => -- {}'.format(action_rounded_date, prev_list, action["data"]["card"]["name"]))
+                        if action["data"]["card"]["id"] in output_data[action_rounded_date][prev_list]:
+                            output_data[action_rounded_date][prev_list].remove(action["data"]["card"]["id"])
 
                 elif 'listAfter' in action["data"].keys():
                     print('Update card with undefined after')
