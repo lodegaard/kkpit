@@ -1,4 +1,4 @@
-dash==1.3.0  # The core dash backend
+dash==2.15.0  # The core dash backend
 dash-daq==0.2.1  # DAQ components (newly open-sourced!)
 
 py-trello
